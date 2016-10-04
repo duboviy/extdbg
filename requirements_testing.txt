@@ -1,4 +1,5 @@
 ###### Requirements without Version Specifiers ######
+configparser
 
 nose
 coverage

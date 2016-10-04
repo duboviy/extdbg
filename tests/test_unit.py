@@ -1,13 +1,21 @@
-import os
-import sys
-import time
-import json
-import numbers
-import operator
-import platform
-from test.pystone import main as my_expensive_code
+import unittest
 
-from nose.tools import with_setup
+from extdbg import whereis
 
 
-# TODO: make tests
+class TestWhereis(unittest.TestCase):
+
+    def test_where_is(self):
+        location = whereis(whereis)
+        self.assertTrue(isinstance(location.line_no, int))
+        self.assertTrue(isinstance(location.filename, str))
+
+    def test_with_generator(self):
+        def g():
+            yield 1
+
+        location = whereis(g())
+        self.assertTrue(isinstance(location.line_no, int))
+        self.assertTrue(isinstance(location.filename, str))
+
+# TODO: add more tests ASAP!
