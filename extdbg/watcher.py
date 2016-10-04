@@ -12,16 +12,16 @@ def from_where_called():
     return '%s:%s %s' % (info.filename, info.lineno, code)
 
 
-def add_watched_attribute(name, watch_get=False):  
+def add_watcher_attribute(name, watch_get=False):
     def attr_watch_get(self):
-        value = getattr(self, '_' + name, 'unset')
+        value = getattr(self, '_add_watcher_' + name, 'unset')
         if watch_get:
             pprint(from_where_called(), name, 'is', value)
         return value
  
     def attr_watch_set(self, value):
         pprint(from_where_called(), name, 'set to', value)
-        setattr(self, '_' + name, value)
+        setattr(self, '_add_watcher_' + name, value)
  
     sys._getframe(1).f_locals[name] = property(attr_watch_get, attr_watch_set)
 

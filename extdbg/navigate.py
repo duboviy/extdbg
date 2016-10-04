@@ -2,7 +2,7 @@ import inspect
 
 
 class Location(object):
-    def __init__(self, filename=None, line_no=None):
+    def __init__(self, filename, line_no):
         self.filename = filename
         self.line_no = line_no
 
@@ -14,16 +14,16 @@ class Location(object):
     __repr__ = __str__
 
 
-def whereis(ob):
+def where_is(ob):
     if inspect.isgenerator(ob):
         ob = ob.gi_code
-    l = Location()
     try:
-        l.filename = inspect.getsourcefile(ob)
+        filename = inspect.getsourcefile(ob)
     except TypeError:
-        pass
+        filename = None
     try:
-        l.line_no = inspect.getsourcelines(ob)[1]
-    except IOError:
-        pass
+        line_no = inspect.getsourcelines(ob)[1]
+    except TypeError:
+        line_no = None
+    l = Location(filename, line_no)
     return l

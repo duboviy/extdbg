@@ -23,9 +23,9 @@ colors = {
     'white': 90,
     'red': 91,
     'green': 92,
-    '-':91, # for diffs
-    '+':92,
-    '?':94,
+    '-': 91, # for diffs
+    '+': 92,
+    '?': 94,
 }
 
 
@@ -40,8 +40,7 @@ def patch_minidom():
 
     def writexml_text(self, writer, indent='', addindent='', newl=''):
         text = self.data.strip()
-        if text:
-            minidom._write_data(writer, "%s%s%s" % (indent, text, newl))
+        minidom._write_data(writer, "%s%s%s" % (indent, text, newl)) if text else None
 
     minidom.Text.writexml = writexml_text
 
@@ -50,6 +49,7 @@ def format_xml(filename, indent='    '):
     """ Make xml file `filename` nicely indented """
     patch_minidom()
     xml = minidom.parse(filename)
+
     with open(filename, "wb") as f:
         f.write(xml.toprettyxml(indent=indent))
 
@@ -57,14 +57,18 @@ def format_xml(filename, indent='    '):
 def wrap(text, max_width):
     lines = text.splitlines()
     res = []
+
     for l in lines:
         while True:
             cut = l[:max_width]
+
             if cut:
                 res.append(cut)
             else:
                 break
+
             l = l[max_width:]
+
     return '\n'.join(res)
 
 
@@ -77,8 +81,10 @@ def bordered(text):
     lines = text.splitlines()
     width = max(len(s) for s in lines)
     res = ['┌' + '─' * width + '┐']
+
     for s in lines:
         res.append('│' + (s + ' ' * width)[:width] + '│')
+
     res.append('└' + '─' * width + '┘')
     return '\n'.join(res)
 
@@ -92,27 +98,35 @@ class Printer(object):
 
     def __call__(self, *args):
         out = []
+
         for arg in args:
             item = pformat(arg) if self.pretty else str(arg)
-            if self.max_width: 
+
+            if self.max_width:
                 item = wrap(item, self.max_width)
+
             if self.bordered:
                 item = bordered(item)
+
             out.append(item)
+
         out = ' '.join(out)
+
         if self.color:
             out = self.color_code(self.color) + out + self.color_code('white')
+
         print(out, file=self.outfile)
 
-    def color_code(self, name):
+    @staticmethod
+    def color_code(name):
         if name in colors:
             return '\033[%sm' % colors[name]
-        else:
-            return ''
+        return ''
 
     @staticmethod
     def get_console_width():
         rows, columns = os.popen('stty size', 'r').read().split()
         return int(columns)
+
 
 pprint = Printer()

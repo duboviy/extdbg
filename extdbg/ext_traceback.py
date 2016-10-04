@@ -1,6 +1,13 @@
 import sys
 import linecache
+import logging
+from os import linesep
 from traceback import format_exception_only
+
+
+logger = logging.getLogger(__name__)
+handler = logging.StreamHandler(stream=sys.stderr)
+logger.addHandler(handler)
 
 
 class CustomExceptHook(object):
@@ -23,7 +30,7 @@ class CustomExceptHook(object):
         self._handlers.remove(handler)
 
 
-def excepthook(exctype, value, traceback):
+def excepthook(exc_type, exc_value, traceback):
     locals_proc_cache = {}
 
     def process_var(k, v):
@@ -40,8 +47,7 @@ def excepthook(exctype, value, traceback):
     def process_locals(locals_):
         return dict((k, process_var(k, v)) for k, v in locals_.iteritems())
 
-    lines = list()
-    lines.append("[TRACEBACK EXT]")
+    traceback_msg = "[Traceback Extended:]" + linesep
     parent = traceback
     while parent:
         fm = parent.tb_frame
@@ -50,15 +56,18 @@ def excepthook(exctype, value, traceback):
         name = fm.f_code.co_name
         linecache.checkcache(filename)
         line = linecache.getline(filename, lineno, fm.f_globals)
-        lines.append('  File "%s", line %d, in %s' % (filename, lineno, name))
-        lines.append('    ' + line.strip())
-        lines.append('    locals: {0}'.format(process_locals(fm.f_locals)))
+        traceback_msg += '  File "%s", line %d, in %s' % (filename, lineno, name) + linesep
+        traceback_msg += '    ' + line.strip() + linesep
+        traceback_msg += '    locals: {0}'.format(process_locals(fm.f_locals)) + linesep
         parent = parent.tb_next
-    lines += [l.strip() for l in format_exception_only(exctype, value)]
-    lines.append("[/TRACEBACK EXT]")
+    traceback_msg += ', '.join([l.strip() for l in format_exception_only(exc_type, exc_value)]) + linesep
+    traceback_msg += "[/Traceback Extended:]" + linesep
     locals_proc_cache = None
-    for l in lines:
-        print(l)
+    logger.error(traceback_msg)
+
+    # the original excepthook; don't touch!
+    # Handle an exception by displaying it with a traceback on sys.stderr.
+    # sys.__excepthook__(exc_type, exc_value, traceback)
 
 
 def init_except_hook():

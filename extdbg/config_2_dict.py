@@ -2,10 +2,10 @@ import ConfigParser
 
 
 def config_2_dict(filename):
-    """Reads config file, and returns dictionary of it's sections."""
+    """Reads config file, and returns dictionary of it's sections (content as dictionary of dictionaries)."""
     p = ConfigParser.ConfigParser()
     res = p.read(filename)
-    if res[0] != filename:
+    if not res or res[0] != filename:
         raise IOError('Config %r was not read' % filename)
 
     d = dict(p._sections)

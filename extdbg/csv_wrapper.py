@@ -71,7 +71,7 @@ class UnicodeWriter:
             self.writerow(row)
 
 
-def transform_tsv(src, dst, transformation, encoding='utf-8'):
+def transform_csv(src, dst, transformation, encoding='utf-8'):
     """
     Filter contents of file named `src` into file named `dst` row by row,
     using function `transformation` which receives row of csv in iterable
