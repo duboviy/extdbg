@@ -1,0 +1,5 @@
+###### Requirements without Version Specifiers ######
+
+nose
+coverage
+codacy-coverage
