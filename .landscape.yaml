@@ -12,7 +12,7 @@ pylint:
     # W0212: Access to protected method
     - W0212
     # W0104: Statement has no effect
-    - W0212
+    - W0104
 
 pyflakes:
   disable:
