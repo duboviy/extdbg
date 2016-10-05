@@ -19,8 +19,5 @@ def save_object(object, filename):
 
 
 def load_object(filename):
-    try:
-        with open(filename) as f:
-            return pickle.load(f)
-    except IOError:
-        return None
+    with open(filename) as f:
+        return pickle.load(f)
