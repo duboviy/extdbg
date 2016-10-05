@@ -8,8 +8,7 @@ PY3 = sys.version > '3'
 # Copyright for UnicodeReader and UnicodeWriter, Lennart Regebro
 # http://python3porting.com/problems.html#csv-api-changes
 class UnicodeReader:
-    def __init__(self, filename, dialect=csv.excel, 
-                 encoding="utf-8", **kw):
+    def __init__(self, filename, dialect=csv.excel, encoding="utf-8", **kw):
         self.filename = filename
         self.dialect = dialect
         self.encoding = encoding
@@ -17,12 +16,10 @@ class UnicodeReader:
 
     def __enter__(self):
         if PY3:
-            self.f = open(self.filename, 'rt', 
-                          encoding=self.encoding, newline='')
+            self.f = open(self.filename, 'rt', encoding=self.encoding, newline='')
         else:
             self.f = open(self.filename, 'rb')
-        self.reader = csv.reader(self.f, dialect=self.dialect, 
-                                 **self.kw)
+        self.reader = csv.reader(self.f, dialect=self.dialect, **self.kw)
         return self
         
     def __exit__(self, type, value, traceback):
@@ -41,8 +38,7 @@ class UnicodeReader:
 
 
 class UnicodeWriter:
-    def __init__(self, filename, dialect=csv.excel, 
-                 encoding="utf-8", **kw):
+    def __init__(self, filename, dialect=csv.excel, encoding="utf-8", **kw):
         self.filename = filename
         self.dialect = dialect
         self.encoding = encoding
@@ -50,15 +46,13 @@ class UnicodeWriter:
         
     def __enter__(self):
         if PY3:
-            self.f = open(self.filename, 'wt', 
-                          encoding=self.encoding, newline='')
+            self.f = open(self.filename, 'wt', encoding=self.encoding, newline='')
         else:
             self.f = open(self.filename, 'wb')
-        self.writer = csv.writer(self.f, dialect=self.dialect, 
-                                 **self.kw)
+        self.writer = csv.writer(self.f, dialect=self.dialect, **self.kw)
         return self
         
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, type_, value, traceback_):
         self.f.close()
 
     def writerow(self, row):

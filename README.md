@@ -36,7 +36,6 @@ Contents
 - `extdbg.where_is(object)` - return location of object in code.
 - `extdbg.from_where_called()` - returns location in code from where function which calles this is called
 - `extdbg.watch_for_output(condition=lambda x: True, stream='stdout')` - log location in code where some output is performed.
-- `extdbg.config_2_dict(filename)` - read config file and return it content as dictionary of dictionaries.
 - `extdbg.func_to_dict` - converts function of one hashable argument to dictionary-like object which "contains" all it returning values.
 - `extdbg.pprint` - pprint values wrapped into frame. Also return first passed value unchanged (useful when debugging expressions).
 

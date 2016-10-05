@@ -1,5 +1,4 @@
 ###### Requirements without Version Specifiers ######
-configparser
 pygments
 
 nose

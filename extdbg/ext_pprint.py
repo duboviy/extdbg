@@ -1,17 +1,16 @@
 # coding=utf-8
-from __future__ import print_function
-from __future__ import absolute_import
-
 """
 Module for colorfull pretty printing different data.
 
 All functions should return first value passed to them to
 allow easy inserting print function into expressions.
 """
+from __future__ import print_function
+from __future__ import absolute_import
+
 
 import os
 import sys
-from difflib import ndiff
 import xml.dom.minidom as minidom
 from pygments import highlight
 from pygments.lexers import XmlLexer
@@ -33,7 +32,7 @@ def xml(text):
     tree = minidom.parseString(text)
     print(highlight(tree.toprettyxml(), XmlLexer(), TerminalFormatter()))
     return text
-    
+
     
 def patch_minidom():
     """ Because default version outputs to much whitespace """

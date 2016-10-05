@@ -13,9 +13,9 @@ class func_to_dict(object):
         return self.f(key)
 
 
-def save_object(object, filename):
+def save_object(object_, filename):
     with open(filename, 'w') as f:
-        pickle.dump(f, object)
+        pickle.dump(f, object_)
 
 
 def load_object(filename):

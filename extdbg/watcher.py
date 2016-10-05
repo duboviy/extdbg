@@ -18,7 +18,7 @@ def add_watcher_attribute(name, watch_get=False):
         if watch_get:
             pprint(from_where_called(), name, 'is', value)
         return value
- 
+
     def attr_watch_set(self, value):
         pprint(from_where_called(), name, 'set to', value)
         setattr(self, '_add_watcher_' + name, value)
