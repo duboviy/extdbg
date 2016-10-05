@@ -14,8 +14,8 @@ python:
 # command to install dependencies
 install: "pip install -r requirements_testing.txt"
 
-#env:
-#  - CODACY_PROJECT_TOKEN=
+env:
+  - CODACY_PROJECT_TOKEN=24c36ea73f484f84adba8789e57d26b8
 
  # command to run tests
 script: nosetests --with-coverage --cover-package=extdbg tests/

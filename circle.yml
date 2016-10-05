@@ -1,10 +1,9 @@
 machine:
-#  environment:
-#    CODACY_PROJECT_TOKEN: 4620615bad6043d3b623eff21a60130a
+  environment:
+    CODACY_PROJECT_TOKEN: 24c36ea73f484f84adba8789e57d26b8
 
 dependencies:
   override:
-    # command to install dependencies
     - pip install -r requirements_testing.txt
     - pip install tox tox-pyenv
     - pyenv local 2.7.11 3.5.0
