@@ -59,7 +59,7 @@ class TestWatchForOutput(unittest.TestCase):
         mock_stdout.write = write
         with patch('sys.stdout', mock_stdout):
             watch_for_output(lambda s: 'yes' in s)
-            print 'yes'
+            print('yes')
 
         self.assertIn('yes', output)
 
