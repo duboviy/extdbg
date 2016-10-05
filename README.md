@@ -10,8 +10,17 @@ Extended debugging python utilities
 
 ## Installation:
 
+Install from PyPI:
+```
+pip install extdbg
+```
+Or using alternative command:
 ```
 pip install https://github.com/duboviy/extdbg/archive/master.zip
+```
+Or from source use:
+```
+python setup.py install
 ```
 
 ## Supported python versions
