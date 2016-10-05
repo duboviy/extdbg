@@ -22,7 +22,7 @@ def add_watcher_attribute(name, watch_get=False):
     def attr_watch_set(self, value):
         pprint(from_where_called(), name, 'set to', value)
         setattr(self, '_add_watcher_' + name, value)
- 
+
     sys._getframe(1).f_locals[name] = property(attr_watch_get, attr_watch_set)
 
 

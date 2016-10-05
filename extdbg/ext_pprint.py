@@ -22,7 +22,7 @@ colors = {
     'white': 90,
     'red': 91,
     'green': 92,
-    '-': 91, # for diffs
+    '-': 91,    # for diffs
     '+': 92,
     '?': 94,
 }
@@ -33,13 +33,14 @@ def xml(text):
     print(highlight(tree.toprettyxml(), XmlLexer(), TerminalFormatter()))
     return text
 
-    
+
 def patch_minidom():
     """ Because default version outputs to much whitespace """
 
     def writexml_text(self, writer, indent='', addindent='', newl=''):
         text = self.data.strip()
-        minidom._write_data(writer, "%s%s%s" % (indent, text, newl)) if text else None
+        if text:
+            minidom._write_data(writer, "%s%s%s" % (indent, text, newl))
 
     minidom.Text.writexml = writexml_text
 
