@@ -1,7 +1,7 @@
 ###### Requirements without Version Specifiers ######
 pygments
+mock
 
 nose
 coverage
 codacy-coverage
-mock
