@@ -21,7 +21,7 @@ class TestWhereIs(unittest.TestCase):
 
     def test_where_is_with_generator(self):
         expected_filename = "test_unit.py"
-        expected_line_no = 25
+        expected_line_no = 26
 
         def g():
             yield 1
