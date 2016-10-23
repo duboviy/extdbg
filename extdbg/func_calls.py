@@ -38,5 +38,6 @@ def get_func_calls(tree):
 
 
 if __name__ == '__main__':
+    # Example of usage
     tree = ast.parse(open(__file__).read())
-    print get_func_calls(tree)
+    print(get_func_calls(tree))
