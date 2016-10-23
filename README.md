@@ -39,13 +39,21 @@ python setup.py install
 Contents
 --------
 
-- `extdbg.init_except_hook` - initialise extended traceback hook with locals variables in exception message
-- `extdbg.add_watched_attribute(name, watch_get=False)` - when called in class (for example `add_watched_attribute('name')`) - instances of that class will log every change to the attribute. And log every access if `watch_get` is `True`.
-- `extdbg.where_is(object)` - return location of object in code.
-- `extdbg.from_where_called()` - returns location in code from where function which calles this is called
-- `extdbg.watch_for_output(condition=lambda x: True, stream='stdout')` - log location in code where some output is performed.
-- `extdbg.func_to_dict` - converts function of one hashable argument to dictionary-like object which "contains" all it returning values.
-- `extdbg.pprint` - pprint values wrapped into frame. Also return first passed value unchanged (useful when debugging expressions).
+```
+from extdbg import ... (see variants in list below)
+```
+
+- `init_except_hook` - initialise extended traceback hook with locals variables in exception message
+- `add_watched_attribute(name, watch_get=False)` - when called in class (for example `add_watched_attribute('name')`) - instances of that class will log every change to the attribute. And log every access if `watch_get` is `True`.
+- `where_is(object)` - return location of object in code.
+- `from_where_called()` - returns location in code from where function which calles this is called
+- `watch_for_output(condition=lambda x: True, stream='stdout')` - log location in code where some output is performed.
+- `func_to_dict` - converts function of one hashable argument to dictionary-like object which "contains" all it returning values.
+- `pprint` - pprint values wrapped into frame. Also return first passed value unchanged (useful when debugging expressions).
+- `hackable_properties` - properties mock setter. Use this module to mock/stub any property of New Style Class
+- `threaded` - allows you to decorate a function in your Python code, making it run in a separate thread
+- `log_get_func_calls` - return all function calls from a python file
+- `public and internal` - additional context decorators (like public and private in other languages)
 
 ... and many other features
 
