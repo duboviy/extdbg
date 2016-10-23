@@ -1,4 +1,5 @@
 import unittest
+import inspect
 
 from mock import Mock, patch
 
@@ -83,3 +84,27 @@ class TestExtPPrint(unittest.TestCase):
             pprint({'a': [1, 2]})
 
         self.assertEquals(output, [])
+
+
+class TestBoundFunc(unittest.TestCase):
+
+    def test_works(self):
+        from extdbg import boundFunc
+        # Example of usage
+        class Cls2Bound:
+            pass
+
+        instance2Bound = Cls2Bound()
+
+        def func(*args, **kwargs):
+            print(args, kwargs)
+
+        l = lambda *args, **kwargs: None
+
+        # bound method Cls2Bound.func
+        bound_method1 = boundFunc(func, instance2Bound, Cls2Bound)
+        # bound method Cls2Bound.<lambda>
+        bound_method2 = boundFunc(l, instance2Bound, Cls2Bound)
+
+        self.assertTrue(inspect.ismethod(bound_method1))
+        self.assertTrue(inspect.ismethod(bound_method2))

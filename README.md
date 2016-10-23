@@ -47,13 +47,17 @@ from extdbg import ... (see variants in list below)
 - `add_watched_attribute(name, watch_get=False)` - when called in class (for example `add_watched_attribute('name')`) - instances of that class will log every change to the attribute. And log every access if `watch_get` is `True`.
 - `where_is(object)` - return location of object in code.
 - `from_where_called()` - returns location in code from where function which calles this is called
-- `watch_for_output(condition=lambda x: True, stream='stdout')` - log location in code where some output is performed.
-- `func_to_dict` - converts function of one hashable argument to dictionary-like object which "contains" all it returning values.
-- `pprint` - pprint values wrapped into frame. Also return first passed value unchanged (useful when debugging expressions).
-- `hackable_properties` - properties mock setter. Use this module to mock/stub any property of New Style Class
 - `threaded` - allows you to decorate a function in your Python code, making it run in a separate thread
 - `log_get_func_calls` - return all function calls from a python file
 - `public and internal` - additional context decorators (like public and private in other languages)
+- `hackable_properties` - properties mock setter. Use this module to mock/stub any property of New Style Class
+- `watch_for_output(condition=lambda x: True, stream='stdout')` - log location in code where some output is performed
+- `pprint` - pprint values wrapped into frame. Also return first passed value unchanged (useful when debugging expressions)
+- `func_to_dict` - converts function of one hashable argument to dictionary-like object which "contains" all it returning values
+- `boundFunc` - bind any function/lambda as instance's method
+- `save_object and load_object` - pickle objects in/from files 
+- `enable_debug` - use on remote process to debug it using pycharm remote server run
+ 
 
 ... and many other features
 
