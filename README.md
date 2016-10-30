@@ -54,7 +54,7 @@ from extdbg import ... (see variants in list below)
 - `watch_for_output(condition=lambda x: True, stream='stdout')` - log location in code where some output is performed
 - `pprint` - pprint values wrapped into frame. Also return first passed value unchanged (useful when debugging expressions)
 - `func_to_dict` - converts function of one hashable argument to dictionary-like object which "contains" all it returning values
-- `boundFunc` - bind any function/lambda as instance's method
+- `bound_func` - bind any function/lambda as instance's method
 - `save_object and load_object` - pickle objects in/from files 
 - `enable_debug` - use on remote process to debug it using pycharm remote server run
  

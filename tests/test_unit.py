@@ -89,7 +89,7 @@ class TestExtPPrint(unittest.TestCase):
 class TestBoundFunc(unittest.TestCase):
 
     def test_works(self):
-        from extdbg import boundFunc
+        from extdbg import bound_func
         # Example of usage
         class Cls2Bound:
             pass
@@ -102,9 +102,9 @@ class TestBoundFunc(unittest.TestCase):
         l = lambda *args, **kwargs: None
 
         # bound method Cls2Bound.func
-        bound_method1 = boundFunc(func, instance2Bound, Cls2Bound)
+        bound_method1 = bound_func(func, instance2Bound, Cls2Bound)
         # bound method Cls2Bound.<lambda>
-        bound_method2 = boundFunc(l, instance2Bound, Cls2Bound)
+        bound_method2 = bound_func(l, instance2Bound, Cls2Bound)
 
         self.assertTrue(inspect.ismethod(bound_method1))
         self.assertTrue(inspect.ismethod(bound_method2))

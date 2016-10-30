@@ -24,7 +24,7 @@ def load_object(filename):
         return pickle.load(f)
 
 
-def boundFunc(func, instance, cls):
+def bound_func(func, instance, cls):
     """
     Functions are descriptors,
     so we can bind them by calling their __get__ method.
@@ -63,9 +63,9 @@ if __name__ == "__main__":
     l = lambda *args, **kwargs: None
 
     # bound method Cls2Bound.func
-    bound_method1 = boundFunc(func, instance2Bound, Cls2Bound)
+    bound_method1 = bound_func(func, instance2Bound, Cls2Bound)
     # bound method Cls2Bound.<lambda>
-    bound_method2 = boundFunc(l, instance2Bound, Cls2Bound)
+    bound_method2 = bound_func(l, instance2Bound, Cls2Bound)
 
     assert inspect.ismethod(bound_method1) == True
     assert inspect.ismethod(bound_method2) == True
