@@ -1,6 +1,7 @@
 import unittest
 import inspect
 
+import six
 from mock import Mock, patch
 
 
@@ -13,15 +14,15 @@ class TestWhereIs(unittest.TestCase):
         from extdbg import where_is
         location = where_is(where_is)
 
-        self.assertTrue(isinstance(location.filename, str))
+        self.assertTrue(isinstance(location.filename, six.string_types))
         self.assertTrue(location.filename.endswith(expected_filename))
 
-        self.assertTrue(isinstance(location.line_no, int))
+        self.assertTrue(isinstance(location.line_no, six.integer_types))
         self.assertEqual(location.line_no, expected_line_no)
 
     def test_where_is_with_generator(self):
         expected_filename = "test_unit.py"
-        expected_line_no = 26
+        expected_line_no = 27
 
         def g():
             yield 1
@@ -29,10 +30,10 @@ class TestWhereIs(unittest.TestCase):
         from extdbg import where_is
         location = where_is(g())
 
-        self.assertTrue(isinstance(location.line_no, int))
+        self.assertTrue(isinstance(location.line_no, six.integer_types))
         self.assertEqual(location.line_no, expected_line_no)
 
-        self.assertTrue(isinstance(location.filename, str))
+        self.assertTrue(isinstance(location.filename, six.string_types))
         self.assertTrue(location.filename.endswith(expected_filename))
 
     def test_where_is_negative(self):

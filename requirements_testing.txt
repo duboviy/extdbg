@@ -2,6 +2,7 @@
 pygments
 mock
 
+six
 nose
 coverage
 codacy-coverage
