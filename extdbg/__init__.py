@@ -4,7 +4,7 @@ from .transformations import func_to_dict, save_object, load_object, \
         bound_func, run_fn_once, coroutine
 from .ext_pprint import pprint
 from .ext_traceback import init_except_hook
-from .prop_mock import hackable_properties
+from .prop_mock import hackable_properties, ValueWrapper
 from .threaded import threaded
 from .log_invocator import log_invocation
 from .func_calls import get_func_calls

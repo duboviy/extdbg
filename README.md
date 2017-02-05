@@ -44,11 +44,11 @@ from extdbg import ... (see variants in list below)
 ```
 
 - `init_except_hook` - initialise extended traceback hook with locals variables in exception message
-- `add_watched_attribute(name, watch_get=False)` - when called in class (for example `add_watched_attribute('name')`) - instances of that class will log every change to the attribute. And log every access if `watch_get` is `True`.
+- `add_watcher_attribute(name, watch_get=False)` - when called in class (for example `add_watcher_attribute('name')`) - instances of that class will log every change to the attribute. And log every access if `watch_get` is `True`.
 - `where_is(object)` - return location of object in code.
-- `from_where_called()` - returns location in code from where function which calles this is called
+- `from_where_called()` - returns location in code from where function which calls this is called
 - `threaded` - allows you to decorate a function in your Python code, making it run in a separate thread
-- `log_get_func_calls` - return all function calls from a python file
+- `get_func_calls` - return all function calls from a python file
 - `public and internal` - additional context decorators (like public and private in other languages)
 - `hackable_properties` - properties mock setter. Use this module to mock/stub any property of New Style Class
 - `watch_for_output(condition=lambda x: True, stream='stdout')` - log location in code where some output is performed
@@ -60,6 +60,199 @@ from extdbg import ... (see variants in list below)
  
 
 ... and many other features
+
+Basic usage examples
+--------
+
+- `init_except_hook` - initialise extended traceback hook with locals variables in exception message
+
+```
+from extdbg import init_except_hook
+
+
+init_except_hook()
+
+def test(a, b):
+    a / b
+
+test(1, 0)
+```
+
+- `where_is(object)` - return location of object in code.
+
+```
+from extdbg import where_is
+
+
+location = where_is(where_is)
+
+expected_filename = "navigate.py"
+expected_line_no = 17
+
+assert location.filename.endswith(expected_filename)
+assert location.line_no == expected_line_no
+```
+
+- `from_where_called()` - returns location in code from where function which calls this is called
+
+```
+from extdbg import from_where_called
+
+
+def f2():
+    print(from_where_called())
+
+def f1():
+    f2()
+    
+f1()
+```
+
+- `threaded` - allows you to decorate a function in your Python code, making it run in a separate thread
+
+```
+from extdbg import threaded
+
+
+def fib(n):
+    if n < 2:
+        return n
+    return fib(n-2) + fib(n-1)
+
+print(fib(35))
+
+@threaded(daemon=True)
+def _fib(n):
+    if n < 2:
+        return n
+    return fib(n-2) + fib(n-1)
+
+print(_fib(35))
+```
+
+- `get_func_calls` - return all function calls from a python file
+
+```
+import ast
+
+from extdbg import get_func_calls
+
+
+filename = __file__
+tree = ast.parse(open(__file__).read())
+print(get_func_calls(tree))
+```
+
+- `public and internal` - additional context decorators (like public and private in other languages). You can use decorator to wrap your code:
+
+```
+from extdbg import public, internal
+
+
+class A(object):
+
+    @internal
+    def m1(self):
+        pass
+
+    @public
+    def m2(self):
+        self.m1()
+
+a = A()
+a.m1()  # can't call API m1 is marked as internal!
+a.m2()
+```
+
+- `hackable_properties` - properties mock setter. Use this module to mock/stub any property of New Style Class
+
+```
+from extdbg import hackable_properties, ValueWrapper
+
+
+class NewStyleCls(object):
+    @property
+    def prop_2_mock(self):
+        raise RuntimeError("Unmocked property!")
+
+
+@hackable_properties
+class NewStyleClsMocked(NewStyleCls):
+    def __init__(self, *args, **kwargs):
+        super(NewStyleClsMocked, self).__init__(*args, **kwargs)
+        self.prop_2_mock = ValueWrapper("MOCKING_PROP_VALUE")
+
+mockable_cls = NewStyleClsMocked()
+assert mockable_cls.prop_2_mock == "MOCKING_PROP_VALUE"
+```
+
+- `watch_for_output(condition=lambda x: True, stream='stdout')` - log location in code where some output is performed
+
+```
+import unittest
+
+from mock import Mock, patch
+
+class TestWatchForOutput(unittest.TestCase):
+
+    def test_works(self):
+        from extdbg import watch_for_output
+
+        mock_stdout = Mock()
+        output = []
+
+        def write(txt):
+            output.append(txt)
+
+        mock_stdout.write = write
+        with patch('sys.stdout', mock_stdout):
+            watch_for_output(lambda s: 'yes' in s)
+            print('yes')
+
+        self.assertIn('yes', output)
+```
+
+- `bound_func` - bind any function/lambda as instance's method
+
+```
+import unittest
+import inspect
+
+from mock import Mock, patch
+
+
+class TestBoundFunc(unittest.TestCase):
+
+    def test_works(self):
+        from extdbg import bound_func
+        # Example of usage
+        class Cls2Bound:
+            pass
+
+        instance2Bound = Cls2Bound()
+
+        def func(*args, **kwargs):
+            print(args, kwargs)
+
+        l = lambda *args, **kwargs: None
+
+        # bound method Cls2Bound.func
+        bound_method1 = bound_func(func, instance2Bound, Cls2Bound)
+        # bound method Cls2Bound.<lambda>
+        bound_method2 = bound_func(l, instance2Bound, Cls2Bound)
+
+        self.assertTrue(inspect.ismethod(bound_method1))
+        self.assertTrue(inspect.ismethod(bound_method2))
+```
+
+- `enable_debug` - use on remote process to debug it using pycharm remote server run
+
+```
+from extdbg import enable_debug
+
+
+enable_debug("/home/<username>/pydev/debug-eggs/pycharm-debug.egg", 'localhost')
+```
 
 ## License
 
