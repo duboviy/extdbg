@@ -43,19 +43,17 @@ Contents
 from extdbg import ... (see variants in list below)
 ```
 
-- `init_except_hook` - initialise extended traceback hook with locals variables in exception message
-- `add_watcher_attribute(name, watch_get=False)` - when called in class (for example `add_watcher_attribute('name')`) - instances of that class will log every change to the attribute. And log every access if `watch_get` is `True`.
-- `where_is(object)` - return location of object in code.
-- `from_where_called()` - returns location in code from where function which calls this is called
-- `threaded` - allows you to decorate a function in your Python code, making it run in a separate thread
+- `init_except_hook` - initialise extended traceback hook with local variables in exception message
+- `add_watcher_attribute(name, watch_get=False)` - when called within some class (for example `add_watcher_attribute('name')`) - instances of that class will log every change to the attribute. Also tracks every access to attribute if `watch_get` is `True`.
+- `where_is(object)` - return location of the object definition in code.
+- `from_where_called()` - return location in code from where function which calls this is called
+- `threaded` - allow you to decorate a function in your Python code, making it run in a separate thread
 - `get_func_calls` - return all function calls from a python file
-- `public and internal` - additional context decorators (like public and private in other languages)
+- `public and internal` - allow you to use additional context decorators (like public and private in other languages)
 - `hackable_properties` - properties mock setter. Use this module to mock/stub any property of New Style Class
-- `watch_for_output(condition=lambda x: True, stream='stdout')` - log location in code where some output is performed
-- `pprint` - pprint values wrapped into frame. Also return first passed value unchanged (useful when debugging expressions)
-- `func_to_dict` - converts function of one hashable argument to dictionary-like object which "contains" all it returning values
+- `watch_for_output` - log location in code where some output is performed
 - `bound_func` - bind any function/lambda as instance's method
-- `save_object and load_object` - pickle objects in/from files 
+- `save_object and load_object` - pickle/unpickle objects in/from files
 - `enable_debug` - use on remote process to debug it using pycharm remote server run
  
 
@@ -64,9 +62,9 @@ from extdbg import ... (see variants in list below)
 Basic usage examples
 --------
 
-- `init_except_hook` - initialise extended traceback hook with locals variables in exception message
+- `init_except_hook` - initialise extended traceback hook with local variables in exception message
 
-```
+```python
 from extdbg import init_except_hook
 
 
@@ -78,9 +76,9 @@ def test(a, b):
 test(1, 0)
 ```
 
-- `where_is(object)` - return location of object in code.
+- `where_is(object)` - return location of the object definition in code
 
-```
+```python
 from extdbg import where_is
 
 
@@ -93,9 +91,9 @@ assert location.filename.endswith(expected_filename)
 assert location.line_no == expected_line_no
 ```
 
-- `from_where_called()` - returns location in code from where function which calls this is called
+- `from_where_called()` - return location in code from where function which calls this is called
 
-```
+```python
 from extdbg import from_where_called
 
 
@@ -108,9 +106,9 @@ def f1():
 f1()
 ```
 
-- `threaded` - allows you to decorate a function in your Python code, making it run in a separate thread
+- `threaded` - allow you to decorate a function in your Python code, making it run in a separate thread
 
-```
+```python
 from extdbg import threaded
 
 
@@ -132,7 +130,7 @@ print(_fib(35))
 
 - `get_func_calls` - return all function calls from a python file
 
-```
+```python
 import ast
 
 from extdbg import get_func_calls
@@ -143,9 +141,9 @@ tree = ast.parse(open(__file__).read())
 print(get_func_calls(tree))
 ```
 
-- `public and internal` - additional context decorators (like public and private in other languages). You can use decorator to wrap your code:
+- `public and internal` - allow you to use additional context decorators (like public and private in other languages). You can use decorator to wrap your code:
 
-```
+```python
 from extdbg import public, internal
 
 
@@ -166,7 +164,7 @@ a.m2()
 
 - `hackable_properties` - properties mock setter. Use this module to mock/stub any property of New Style Class
 
-```
+```python
 from extdbg import hackable_properties, ValueWrapper
 
 
@@ -188,10 +186,11 @@ assert mockable_cls.prop_2_mock == "MOCKING_PROP_VALUE"
 
 - `watch_for_output(condition=lambda x: True, stream='stdout')` - log location in code where some output is performed
 
-```
+```python
 import unittest
 
 from mock import Mock, patch
+
 
 class TestWatchForOutput(unittest.TestCase):
 
@@ -214,7 +213,7 @@ class TestWatchForOutput(unittest.TestCase):
 
 - `bound_func` - bind any function/lambda as instance's method
 
-```
+```python
 import unittest
 import inspect
 
@@ -247,7 +246,7 @@ class TestBoundFunc(unittest.TestCase):
 
 - `enable_debug` - use on remote process to debug it using pycharm remote server run
 
-```
+```python
 from extdbg import enable_debug
 
 
